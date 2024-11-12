@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Online Store</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>GlobalMarket</h1>
+        <section class="product-grid">
+            <div class="product">
+                <img src="product1.jpg" alt="Product 1">
+                <h3>Product 1</h3>
+                <p>$20.00</p>
+                <button>Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="product2.jpg" alt="Product 2">
+                <h3>Product 2</h3>
+                <p>$25.00</p>
+                <button>Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="product3.jpg" alt="Product 3">
+                <h3>Product 3</h3>
+                <p>$30.00</p>
+                <button>Add to Cart</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Online Store. All Rights Reserved.</p>
+    </footer>
+    <script>
+        let cart = [];
+     
+        const addToCartButtons = document.querySelectorAll('button');
+     
+        addToCartButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                const productName = button.previousElementSibling.previousElementSibling.textContent;
+                const productPrice = button.previousElementSibling.textContent;
+                cart.push({ name: productName, price: productPrice });
+                console.log(cart); // Display cart items in console for now
+            });
+        });
+     </script>
+<div id="paypal-button-container"></div>
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR-CLIENT-ID"></script>
+<script>
+   paypal.Buttons({
+       createOrder: function(data, actions) {
+           return actions.order.create({
+               purchase_units: [{
+                   amount: {
+                       value: '50.00'
+                   }
+               }]
+           });
+       },
+       onApprove: function(data, actions) {
+           return actions.order.capture().then(function(details) {
+               alert('Transaction completed by ' + details.payer.name.given_name);
+           });
+       }
+   }).render('#paypal-button-container');
+</script>
+     
+</body>
+</html>
